@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+type Operador = '+' | '-' | '*' | '/';
+
 @Component({
   standalone: true,
   selector: 'app-calculadora',
@@ -13,10 +15,20 @@ export class Calculadora {
   numero1 = '';
   numero2 = '';
   resultado: number | null = null;
-  operador = '+';
+  operador: Operador = '+';
   mensagem = '';
+  readonly operacoes: { valor: Operador; descricao: string; simbolo: string }[] = [
+    { valor: '+', descricao: 'Soma', simbolo: '+' },
+    { valor: '-', descricao: 'Subtracao', simbolo: '-' },
+    { valor: '*', descricao: 'Multiplicacao', simbolo: 'x' },
+    { valor: '/', descricao: 'Divisao', simbolo: '/' }
+  ];
 
-  calcular(operacao: '+' | '-' | '*' | '/') {
+  selecionarOperador(operador: Operador) {
+    this.operador = operador;
+  }
+
+  calcular() {
     const a = Number(this.numero1);
     const b = Number(this.numero2);
 
@@ -26,16 +38,15 @@ export class Calculadora {
       return;
     }
 
-    if (operacao === '/' && b === 0) {
+    if (this.operador === '/' && b === 0) {
       this.mensagem = 'Divisão por zero não é permitida.';
       this.resultado = null;
       return;
     }
 
     this.mensagem = '';
-    this.operador = operacao;
 
-    switch (operacao) {
+    switch (this.operador) {
       case '+':
         this.resultado = a + b;
         break;

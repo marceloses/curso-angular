@@ -12,13 +12,26 @@
         Número 2
         <input type="number" [(ngModel)]="numero2" placeholder="Digite o segundo número" />
       </label>
+
+      <div class="operation-field">
+        <span>Operação</span>
+        <div class="operation-buttons">
+          <button
+            type="button"
+            *ngFor="let operacao of operacoes"
+            [class.active]="operador === operacao.valor"
+            [attr.aria-pressed]="operador === operacao.valor"
+            (click)="selecionarOperador(operacao.valor)"
+          >
+            <strong>{{ operacao.simbolo }}</strong>
+            <small>{{ operacao.descricao }}</small>
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="button-row">
-      <button type="button" (click)="calcular('+')">+</button>
-      <button type="button" (click)="calcular('-')">-</button>
-      <button type="button" (click)="calcular('*')">×</button>
-      <button type="button" (click)="calcular('/')">÷</button>
+      <button type="button" (click)="calcular()">Calcular</button>
       <button type="button" class="secondary" (click)="limpar()">Limpar</button>
     </div>
 
@@ -30,7 +43,7 @@
         <span>{{ resultado }}</span>
       </p>
       <p *ngIf="resultado === null && !mensagem" class="hint">
-        Selecione uma operação para calcular.
+        Preencha os valores, escolha a operação e clique em Calcular.
       </p>
     </div>
   </div>
